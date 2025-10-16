@@ -25,12 +25,11 @@
         android:id="@+id/CircleContainer"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:background="@drawable/bg_circle"
+        android:background="@drawable/bg_circle_ripple"
         android:elevation="6dp"
         android:layout_marginTop="32dp"
         android:clickable="true"
         android:focusable="true"
-        android:foreground="?attr/selectableItemBackgroundBorderless"
         app:layout_constraintTop_toBottomOf="@id/TextPrincipal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -73,17 +72,14 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerEscaneos"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginHorizontal="16dp"
-        android:orientation="vertical"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/item_escaneo_reciente"
         app:layout_constraintTop_toBottomOf="@id/TextEscaneosReciente"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:listitem="@layout/item_escaneo_reciente"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
