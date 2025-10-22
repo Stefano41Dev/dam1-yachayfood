@@ -2,4 +2,12 @@
 <resources>
 
     <style name="Theme.AplicacionIDK" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.YachayFood" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Colores primarios y secundarios -->
+        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="android:statusBarColor">@color/purple_700</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
 </resources>
