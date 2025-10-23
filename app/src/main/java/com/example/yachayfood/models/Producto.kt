@@ -1,4 +1,4 @@
-package com.example.yachayfood.data.models
+package com.example.yachayfood.models
 
 data class Producto (
     val codigoProducto: String,

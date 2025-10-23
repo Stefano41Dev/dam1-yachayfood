@@ -1,7 +1,6 @@
 package com.example.yachayfood.ui.view.escanear_producto
 
 import android.Manifest
-import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
@@ -14,7 +13,11 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.yachayfood.databinding.ActivityEscanearProductoBinding
 import com.google.android.material.snackbar.Snackbar
-import com.google.zxing.*
+import com.google.zxing.BarcodeFormat
+import com.google.zxing.BinaryBitmap
+import com.google.zxing.DecodeHintType
+import com.google.zxing.MultiFormatReader
+import com.google.zxing.RGBLuminanceSource
 import com.google.zxing.common.HybridBinarizer
 import com.journeyapps.barcodescanner.BarcodeCallback
 import com.journeyapps.barcodescanner.BarcodeResult
@@ -82,7 +85,7 @@ class EscanearProductoActivity : AppCompatActivity() {
     private val imagePickerLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
+        if (result.resultCode == RESULT_OK) {
             val imageUri: Uri? = result.data?.data
             imageUri?.let { scanFromImage(it) }
         }

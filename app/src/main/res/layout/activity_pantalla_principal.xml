@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F5F5F5"
-    tools:context=".ui.view.pagina_principal.PaginaPrincipalView"> <!-- Añade tools:context para el preview -->
+    tools:context=".ui.view.pantalla_principal.PantallaPrincipalView"> <!-- Añade tools:context para el preview -->
 
     <!-- Título Principal "YachayFood" -->
     <TextView
