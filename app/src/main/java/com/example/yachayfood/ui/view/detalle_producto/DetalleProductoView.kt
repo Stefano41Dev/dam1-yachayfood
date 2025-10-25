@@ -3,14 +3,16 @@ package com.example.yachayfood.ui.view.detalle_producto
 import android.os.Build
 import android.os.Bundle
 import androidx.annotation.RequiresApi
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.yachayfood.databinding.ActivityDetalleProductoBinding
 import com.example.yachayfood.models.Producto
 
-class DetalleProductoActivity : AppCompatActivity() {
+class DetalleProductoView : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetalleProductoBinding
+    private val viewModel: DetalleProductoViewModel by viewModels()
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,17 +20,22 @@ class DetalleProductoActivity : AppCompatActivity() {
         binding = ActivityDetalleProductoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Recuperar el producto que fue enviado desde EscanearProductoActivity
         val producto = intent.getParcelableExtra<Producto>("producto")
-        if (producto != null) {
-            mostrarDatosProducto(producto)
-        } else {
-            binding.txtNombreProducto.text = "No se encontró información del producto"
+        val codigoProducto = intent.getStringExtra("codigoProducto")
+
+        viewModel.producto.observe(this) { producto ->
+            producto?.let { mostrarDatosProducto(it) }
         }
 
-        // Botón eliminar (ejemplo: puedes agregar funcionalidad real después)
+        viewModel.mensaje.observe(this) { mensaje ->
+            binding.txtNombreProducto.text = mensaje
+        }
+
+        viewModel.cargarProducto(producto)
+        codigoProducto?.let { viewModel.cargarProductoPorCodigo(it) }
+
         binding.btnBorrarProducto.setOnClickListener {
-            finish() // Por ahora solo cerramos la pantalla
+            finish()
         }
     }
 
@@ -38,14 +45,12 @@ class DetalleProductoActivity : AppCompatActivity() {
         binding.txtClasificacion.text = "Clasificación: ${producto.clasificacion}"
         binding.txtCategoria.text = "Categoría: ${producto.categorias.joinToString(", ")}"
 
-        // Cargar imagen con Glide
         Glide.with(this)
             .load(producto.imagenUrl)
             .into(binding.imgProducto)
 
-        // Mostrar nutrientes
         val n = producto.nutrientes
-        val textoNutricional = """
+        binding.txtTablaNutricional.text = """
             Energía: ${n.energia} kcal
             Grasas: ${n.grasas} g
             Grasas Saturadas: ${n.grasasSaturadas} g
@@ -56,9 +61,6 @@ class DetalleProductoActivity : AppCompatActivity() {
             Fibras Alimentarias: ${n.fibrasAlimentarias} g
         """.trimIndent()
 
-        binding.txtTablaNutricional.text = textoNutricional
-
-        // Mostrar ingredientes
         binding.txtIngredientes.text = producto.ingredientes.joinToString(", ")
     }
 }

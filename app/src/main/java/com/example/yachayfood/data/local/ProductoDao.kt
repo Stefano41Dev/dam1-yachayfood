@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.example.yachayfood.models.ProductoEntity
 
 @Dao
 interface ProductoDao {
@@ -29,4 +30,7 @@ interface ProductoDao {
 
     @Query("SELECT * FROM productos ORDER BY nombre ASC") // Ordena alfabéticamente
     suspend fun getAllProductos(): List<ProductoEntity>
+
+    @Query("UPDATE productos SET fechaEscaneo = :nuevaFecha WHERE codigo = :codigo")
+    suspend fun actualizarFechaEscaneo(codigo: String, nuevaFecha: Long)
 }

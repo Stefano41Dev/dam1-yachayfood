@@ -1,37 +1,28 @@
 package com.example.yachayfood.ui.view.pantalla_principal
 
-import android.content.Context
 import android.content.Intent
 import android.graphics.Rect
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
 import android.os.Bundle
-import android.util.Log
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.yachayfood.adapter.EscaneosRecientesAdapter
-import com.example.yachayfood.data.local.AppDatabase
-import com.example.yachayfood.data.local.ProductoEntity
-import com.example.yachayfood.data.local.toProducto
+import com.example.yachayfood.data.database.AppDatabase
 import com.example.yachayfood.databinding.ActivityPantallaPrincipalBinding
-import com.example.yachayfood.models.Producto
-import com.example.yachayfood.repository.ProductoRepository
-import com.example.yachayfood.ui.view.detalle_Room.DetalleProductoRoomActivity
-import com.example.yachayfood.ui.view.detalle_producto.DetalleProductoActivity
-import com.example.yachayfood.ui.view.escanear_producto.EscanearProductoActivity
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import com.example.yachayfood.models.ProductoEntity
+import com.example.yachayfood.ui.view.detalle_Room.DetalleProductoRoomView
+import com.example.yachayfood.ui.view.escanear_producto.EscanearProductoView
 
 class PantallaPrincipalView : AppCompatActivity() {
 
     private lateinit var binding: ActivityPantallaPrincipalBinding
     private lateinit var adapter: EscaneosRecientesAdapter
-    private val productoRepository = ProductoRepository()
-    private val productoDao by lazy { AppDatabase.getInstance(this).productoDao() }
+
+    private val viewModel: PantallaPrincipalViewModel by viewModels {
+        PantallaPrincipalViewModelFactory(AppDatabase.getInstance(this))
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,13 +31,15 @@ class PantallaPrincipalView : AppCompatActivity() {
 
         setupRecyclerView()
         setupScanButton()
-        cargarProductos()
+        setupObservers()
+
+        viewModel.cargarProductosRecientes()
     }
 
     private fun setupRecyclerView() {
         binding.recyclerEscaneos.layoutManager = GridLayoutManager(this, 1)
-        adapter = EscaneosRecientesAdapter(listOf()) { productoEntity ->
-            buscarProducto(productoEntity)
+        adapter = EscaneosRecientesAdapter(listOf()) { producto ->
+            abrirDetalleProducto(producto)
         }
         binding.recyclerEscaneos.adapter = adapter
 
@@ -62,31 +55,20 @@ class PantallaPrincipalView : AppCompatActivity() {
 
     private fun setupScanButton() {
         binding.CircleContainer.setOnClickListener {
-            startActivity(Intent(this, EscanearProductoActivity::class.java))
+            startActivity(Intent(this, EscanearProductoView::class.java))
         }
     }
 
-    private fun buscarProducto(productoEntity: ProductoEntity) {
-        val intent = Intent(this, DetalleProductoRoomActivity::class.java)
-        intent.putExtra("producto_room", productoEntity)
+    private fun setupObservers() {
+        viewModel.productosRecientes.observe(this) { productos ->
+            adapter.actualizarLista(productos)
+        }
+    }
+
+    private fun abrirDetalleProducto(producto: ProductoEntity) {
+        val intent = Intent(this, DetalleProductoRoomView::class.java)
+        intent.putExtra("producto_room", producto)
         startActivity(intent)
-    }
-
-    private fun cargarProductos() {
-        CoroutineScope(Dispatchers.IO).launch {
-            val recientes: List<ProductoEntity> = productoDao.obtenerUltimosTres()
-            withContext(Dispatchers.Main) {
-                adapter.actualizarLista(recientes)
-            }
-        }
-    }
-
-    private fun hayInternet(): Boolean {
-        val cm = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val network = cm.activeNetwork ?: return false
-        val capabilities = cm.getNetworkCapabilities(network) ?: return false
-        return capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
-                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
     }
 
     @Suppress("MissingSuperCall")
@@ -100,6 +82,6 @@ class PantallaPrincipalView : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        cargarProductos()
+        viewModel.cargarProductosRecientes()
     }
 }

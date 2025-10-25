@@ -1,9 +1,7 @@
 package com.example.yachayfood.models
 
 import android.os.Parcelable
-import com.example.yachayfood.data.local.ProductoEntity
 import kotlinx.parcelize.Parcelize
-import java.io.Serializable
 
 @Parcelize
 data class Producto(
@@ -34,7 +32,7 @@ fun Producto.toProductoEntity(): ProductoEntity {
         ingredientes = this.ingredientes.joinToString(","),
         categorias = this.categorias.joinToString(","),
         nutriscoreScore = this.nutrientes.energia.toInt(),
-        nutriments = com.example.yachayfood.data.local.NutrimentsEntity(
+        nutriments = NutrimentsEntity(
             energy_kcal_100g = this.nutrientes.energia,
             energy_100g = this.nutrientes.energia,
             fat_100g = this.nutrientes.grasas,

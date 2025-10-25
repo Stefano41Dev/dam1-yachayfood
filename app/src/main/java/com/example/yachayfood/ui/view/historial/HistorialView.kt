@@ -7,12 +7,11 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.yachayfood.adapter.EscaneosRecientesAdapter
-import com.example.yachayfood.data.local.toProducto
+import com.example.yachayfood.models.toProducto
 import com.example.yachayfood.databinding.ActivityHistorialBinding
-import com.example.yachayfood.ui.view.detalle_producto.DetalleProductoActivity
-import com.example.yachayfood.ui.view.historial.HistorialViewModel
+import com.example.yachayfood.ui.view.detalle_producto.DetalleProductoView
 
-class HistorialActivity : AppCompatActivity() {
+class HistorialView : AppCompatActivity() {
 
     private lateinit var binding: ActivityHistorialBinding
     private lateinit var escaneosAdapter: EscaneosRecientesAdapter
@@ -56,7 +55,7 @@ class HistorialActivity : AppCompatActivity() {
             val productoParaNavegar = productoEntity.toProducto()
 
             // b. Creamos el Intent para ir a DetalleProductoActivity
-            val intent = Intent(this, DetalleProductoActivity::class.java).apply {
+            val intent = Intent(this, DetalleProductoView::class.java).apply {
                 // c. Adjuntamos el producto Parcelable como un "extra"
                 putExtra("producto", productoParaNavegar)
             }
@@ -67,7 +66,7 @@ class HistorialActivity : AppCompatActivity() {
 
         binding.recyclerViewHistorial.apply { // Asegúrate de que el ID sea correcto
             adapter = escaneosAdapter
-            layoutManager = LinearLayoutManager(this@HistorialActivity)
+            layoutManager = LinearLayoutManager(this@HistorialView)
         }
     }
 }

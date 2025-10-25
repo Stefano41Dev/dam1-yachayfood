@@ -3,14 +3,16 @@ package com.example.yachayfood.ui.view.detalle_Room
 import android.os.Build
 import android.os.Bundle
 import androidx.annotation.RequiresApi
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
-import com.example.yachayfood.data.local.ProductoEntity
+import com.example.yachayfood.models.ProductoEntity
 import com.example.yachayfood.databinding.ActivityDetalleProductoRoomBinding
 
-class DetalleProductoRoomActivity : AppCompatActivity() {
+class DetalleProductoRoomView : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetalleProductoRoomBinding
+    private val viewModel: DetalleProductoRoomViewModel by viewModels()
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,10 +21,12 @@ class DetalleProductoRoomActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val producto = intent.getParcelableExtra<ProductoEntity>("producto_room")
-        if (producto != null) {
-            mostrarDatosProducto(producto)
-        } else {
-            binding.txtNombreProducto.text = "No se encontró información del producto"
+        viewModel.setProducto(producto)
+
+        viewModel.producto.observe(this) { producto ->
+            producto?.let { mostrarDatosProducto(it) } ?: run {
+                binding.txtNombreProducto.text = "No se encontró información del producto"
+            }
         }
 
         binding.btnBorrarProducto.setOnClickListener {
@@ -41,7 +45,7 @@ class DetalleProductoRoomActivity : AppCompatActivity() {
             .into(binding.imgProducto)
 
         val n = producto.nutriments
-        val textoNutricional = """
+        binding.txtTablaNutricional.text = """
             Energía: ${n?.energy_kcal_100g ?: 0.0} kcal
             Grasas: ${n?.fat_100g ?: 0.0} g
             Grasas Saturadas: ${n?.saturated_fat_100g ?: 0.0} g
@@ -51,7 +55,6 @@ class DetalleProductoRoomActivity : AppCompatActivity() {
             Fibras Alimentarias: ${n?.fiber_100g ?: 0.0} g
         """.trimIndent()
 
-        binding.txtTablaNutricional.text = textoNutricional
         binding.txtIngredientes.text = producto.ingredientes ?: "No especificados"
     }
 }
