@@ -1,14 +1,14 @@
 package com.example.yachayfood.models
 
-data class Nutriente (
-    val carbohidratos: Double,
-    val energia: Int,
-    val grasas: Int,
+import java.io.Serializable
+
+data class Nutriente(
+    val energia: Double,
+    val grasas: Double,
     val grasasSaturadas: Double,
-    val hidratosCarbono: Int,
-    val azucares: Int,
-    val fibrasAlimentarias: Int,
+    val azucares: Double,
     val proteinas: Double,
-    val calcio: Int,
-    val porcentajeAceitesVegetales : Double
-)
+    val carbohidratos: Double,
+    val hidratosCarbono: Double,
+    val fibrasAlimentarias: Double
+) : Serializable
