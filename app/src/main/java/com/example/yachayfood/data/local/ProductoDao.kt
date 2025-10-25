@@ -26,4 +26,7 @@ interface ProductoDao {
 
     @Query("SELECT * FROM productos ORDER BY fechaEscaneo DESC LIMIT 3")
     suspend fun obtenerUltimosTres(): List<ProductoEntity>
+
+    @Query("SELECT * FROM productos ORDER BY nombre ASC") // Ordena alfabéticamente
+    suspend fun getAllProductos(): List<ProductoEntity>
 }

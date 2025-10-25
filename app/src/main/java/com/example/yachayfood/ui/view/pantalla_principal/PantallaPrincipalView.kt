@@ -10,20 +10,21 @@ import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.yachayfood.adapter.EscaneosRecientesAdapter
 import com.example.yachayfood.data.local.AppDatabase
 import com.example.yachayfood.data.local.ProductoEntity
+import com.example.yachayfood.data.local.toProducto
 import com.example.yachayfood.databinding.ActivityPantallaPrincipalBinding
 import com.example.yachayfood.models.Producto
 import com.example.yachayfood.repository.ProductoRepository
+import com.example.yachayfood.ui.view.detalle_Room.DetalleProductoRoomActivity
 import com.example.yachayfood.ui.view.detalle_producto.DetalleProductoActivity
 import com.example.yachayfood.ui.view.escanear_producto.EscanearProductoActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import com.example.yachayfood.data.local.toProducto
-import androidx.recyclerview.widget.RecyclerView
 
 class PantallaPrincipalView : AppCompatActivity() {
 
@@ -52,7 +53,7 @@ class PantallaPrincipalView : AppCompatActivity() {
         val spacingInPixels = (5 * resources.displayMetrics.density).toInt()
         binding.recyclerEscaneos.addItemDecoration(object : RecyclerView.ItemDecoration() {
             override fun getItemOffsets(
-                outRect: Rect, view: android.view.View, parent: androidx.recyclerview.widget.RecyclerView, state: androidx.recyclerview.widget.RecyclerView.State
+                outRect: Rect, view: android.view.View, parent: RecyclerView, state: RecyclerView.State
             ) {
                 outRect.bottom = spacingInPixels
             }
@@ -66,41 +67,9 @@ class PantallaPrincipalView : AppCompatActivity() {
     }
 
     private fun buscarProducto(productoEntity: ProductoEntity) {
-        val codigoBuscado = productoEntity.codigo
-            .trim()
-            .replace("'", "")
-            .replace("\"", "")
-            .replace("\n", "")
-            .replace("\r", "")
-
-        Log.d("PantallaPrincipal", "Código buscado limpio: '$codigoBuscado'")
-
-        CoroutineScope(Dispatchers.IO).launch {
-            val productoActual: Producto? = if (hayInternet()) {
-                // Buscar online
-                productoRepository.obtenerProductoPorCodigo(codigoBuscado)
-            } else {
-                // Buscar en Room: usar la lista para manejar duplicados
-                val productosRoom = productoDao.obtenerProductosPorCodigo(codigoBuscado)
-                Log.d("PantallaPrincipal", "Productos en Room por código: $productosRoom")
-                productosRoom.firstOrNull()?.toProducto() // Toma el primero si hay duplicados
-            }
-
-            withContext(Dispatchers.Main) {
-                if (productoActual != null) {
-                    Log.d("PantallaPrincipal", "Producto encontrado: ${productoActual.nombreProducto}")
-                    val intent = Intent(this@PantallaPrincipalView, DetalleProductoActivity::class.java)
-                    intent.putExtra("producto", productoActual) // productoActual ahora es Parcelable
-                    startActivity(intent)
-                } else {
-                    Log.d("PantallaPrincipal", "Producto no encontrado")
-                    AlertDialog.Builder(this@PantallaPrincipalView)
-                        .setMessage("Producto no encontrado")
-                        .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
-                        .show()
-                }
-            }
-        }
+        val intent = Intent(this, DetalleProductoRoomActivity::class.java)
+        intent.putExtra("producto_room", productoEntity)
+        startActivity(intent)
     }
 
     private fun cargarProductos() {

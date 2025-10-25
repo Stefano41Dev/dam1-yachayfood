@@ -33,7 +33,7 @@ fun Producto.toProductoEntity(): ProductoEntity {
         imagenUrl = this.imagenUrl,
         ingredientes = this.ingredientes.joinToString(","),
         categorias = this.categorias.joinToString(","),
-        nutriscoreScore = this.nutrientes.energia.toInt(), // ejemplo
+        nutriscoreScore = this.nutrientes.energia.toInt(),
         nutriments = com.example.yachayfood.data.local.NutrimentsEntity(
             energy_kcal_100g = this.nutrientes.energia,
             energy_100g = this.nutrientes.energia,
