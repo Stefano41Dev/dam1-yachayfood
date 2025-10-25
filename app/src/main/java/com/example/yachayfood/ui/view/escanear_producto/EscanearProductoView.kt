@@ -1,97 +1,158 @@
 package com.example.yachayfood.ui.view.escanear_producto
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.widget.Toast
+import android.widget.EditText
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import com.example.yachayfood.data.database.AppDatabase
 import com.example.yachayfood.databinding.ActivityEscanearProductoBinding
-import com.google.mlkit.vision.barcode.BarcodeScanning
-import com.google.mlkit.vision.barcode.BarcodeScannerOptions
-import com.google.mlkit.vision.barcode.common.Barcode
-import com.google.mlkit.vision.common.InputImage
+import com.google.android.material.snackbar.Snackbar
+import com.google.zxing.BarcodeFormat
+import com.google.zxing.BinaryBitmap
+import com.google.zxing.DecodeHintType
+import com.google.zxing.MultiFormatReader
+import com.google.zxing.RGBLuminanceSource
+import com.google.zxing.common.HybridBinarizer
 import com.journeyapps.barcodescanner.BarcodeCallback
 import com.journeyapps.barcodescanner.BarcodeResult
+import com.journeyapps.barcodescanner.DecoratedBarcodeView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class EscanearProductoView : AppCompatActivity() {
 
     private lateinit var binding: ActivityEscanearProductoBinding
-    private var isScanning = false
+    private lateinit var barcodeView: DecoratedBarcodeView
 
-    // Configuración: solo códigos de barras 1D
-    private val options = BarcodeScannerOptions.Builder()
-        .setBarcodeFormats(
-            Barcode.FORMAT_CODE_128,
-            Barcode.FORMAT_EAN_13,
-            Barcode.FORMAT_UPC_A,
-            Barcode.FORMAT_CODE_39
-        )
-        .build()
-    private val barcodeScannerML = BarcodeScanning.getClient(options)
+    private val viewModel: EscanearProductoViewModel by viewModels {
+        object : androidx.lifecycle.ViewModelProvider.Factory {
+            override fun <T : androidx.lifecycle.ViewModel> create(modelClass: Class<T>): T {
+                return EscanearProductoViewModel(AppDatabase.getInstance(this@EscanearProductoView)) as T
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityEscanearProductoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.btnEscanear.setOnClickListener { iniciarEscaneoEnVivo() }
-        binding.btnSubirImagen.setOnClickListener { abrirGaleria() }
-        binding.btnIngresarCodigo.setOnClickListener {
-            Toast.makeText(this, "Función: ingresar código manual", Toast.LENGTH_SHORT).show()
+        barcodeView = binding.barcodeScannerView
+        barcodeView.decodeContinuous(callback)
+
+        setupObservers()
+        setupButtons()
+    }
+
+    private fun setupObservers() {
+        viewModel.mensaje.observe(this) {
+            Snackbar.make(binding.root, it, Snackbar.LENGTH_SHORT).show()
+        }
+
+        viewModel.producto.observe(this) { producto ->
+            producto?.let {
+                val intent = Intent(this, com.example.yachayfood.ui.view.detalle_producto.DetalleProductoView::class.java)
+                intent.putExtra("producto", it)
+                startActivity(intent)
+            }
         }
     }
 
-    private fun iniciarEscaneoEnVivo() {
-        if (isScanning) return
-        isScanning = true
-        binding.barcodeScannerView.resume()
-        binding.barcodeScannerView.decodeContinuous(object : BarcodeCallback {
-            override fun barcodeResult(result: BarcodeResult?) {
-                result?.let {
-                    isScanning = false
-                    binding.barcodeScannerView.pause()
-                    Toast.makeText(this@EscanearProductoView, "Código detectado: ${it.text}", Toast.LENGTH_LONG).show()
-                }
-            }
-            override fun possibleResultPoints(resultPoints: MutableList<com.google.zxing.ResultPoint>?) {}
-        })
+    private fun setupButtons() {
+        binding.btnEscanear.setOnClickListener { checkCameraPermission() }
+
+        binding.btnSubirImagen.setOnClickListener {
+            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            imagePickerLauncher.launch(intent)
+        }
+
+        binding.btnIngresarCodigo.setOnClickListener { mostrarDialogoCodigoManual() }
     }
 
-    override fun onResume() { super.onResume(); binding.barcodeScannerView.resume() }
-    override fun onPause() { super.onPause(); binding.barcodeScannerView.pause() }
-
-    private fun abrirGaleria() {
-        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        galeriaLauncher.launch(intent)
+    private fun checkCameraPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+            == PackageManager.PERMISSION_GRANTED
+        ) {
+            barcodeView.resume()
+        } else {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), 100)
+        }
     }
 
-    private val galeriaLauncher = registerForActivityResult(
+    override fun onPause() { super.onPause(); barcodeView.pause() }
+    override fun onResume() { super.onResume(); barcodeView.resume() }
+
+    private val callback = BarcodeCallback { result: BarcodeResult ->
+        result.text?.let {
+            barcodeView.pause()
+            viewModel.buscarProductoPorCodigo(it)
+        }
+    }
+
+    private val imagePickerLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             val imageUri: Uri? = result.data?.data
-            imageUri?.let {
-                val image = InputImage.fromFilePath(this, it)
-                escanearCodigoDesdeImagen(image)
+            imageUri?.let { scanFromImage(it) }
+        }
+    }
+
+    private fun scanFromImage(imageUri: Uri) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val inputStream = contentResolver.openInputStream(imageUri)
+                val bitmap = BitmapFactory.decodeStream(inputStream)
+                val pixels = IntArray(bitmap.width * bitmap.height)
+                bitmap.getPixels(pixels, 0, bitmap.width, 0, 0, bitmap.width, bitmap.height)
+                val source = RGBLuminanceSource(bitmap.width, bitmap.height, pixels)
+                val binaryBitmap = BinaryBitmap(HybridBinarizer(source))
+
+                val hints = mapOf(DecodeHintType.POSSIBLE_FORMATS to listOf(
+                    BarcodeFormat.EAN_13, BarcodeFormat.UPC_A, BarcodeFormat.CODE_128
+                ))
+
+                val reader = MultiFormatReader().apply { setHints(hints) }
+                val result = reader.decode(binaryBitmap)
+
+                viewModel.buscarProductoPorCodigo(result.text)
+            } catch (e: Exception) {
+                runOnUiThread {
+                    Snackbar.make(binding.root, "No se detectó ningún código", Snackbar.LENGTH_SHORT).show()
+                }
             }
         }
     }
 
-    private fun escanearCodigoDesdeImagen(image: InputImage) {
-        barcodeScannerML.process(image)
-            .addOnSuccessListener { barcodes ->
-                if (barcodes.isNotEmpty()) {
-                    val codigo = barcodes.first().rawValue ?: "Código no leído"
-                    Toast.makeText(this, "Código detectado: $codigo", Toast.LENGTH_LONG).show()
+    private fun mostrarDialogoCodigoManual() {
+        val editText = EditText(this)
+        editText.hint = "Ingrese código"
+
+        AlertDialog.Builder(this)
+            .setTitle("Buscar producto")
+            .setView(editText)
+            .setPositiveButton("Buscar") { dialog, _ ->
+                val codigo = editText.text.toString()
+                if (codigo.isNotEmpty()) {
+                    viewModel.buscarProductoPorCodigo(codigo)
                 } else {
-                    Toast.makeText(this, "No se detectó ningún código en la imagen", Toast.LENGTH_SHORT).show()
+                    Snackbar.make(binding.root, "Código vacío", Snackbar.LENGTH_SHORT).show()
                 }
+                dialog.dismiss()
             }
-            .addOnFailureListener {
-                Toast.makeText(this, "Error al escanear imagen: ${it.message}", Toast.LENGTH_SHORT).show()
-            }
+            .setNegativeButton("Cancelar") { dialog, _ -> dialog.dismiss() }
+            .show()
     }
 }

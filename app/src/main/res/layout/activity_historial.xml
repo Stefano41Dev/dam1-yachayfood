@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.view.historial.HistorialActivity">
+    tools:context=".ui.view.historial.HistorialView">
 
     <!-- Opcional: Puedes agregar una AppBar o un Toolbar aquí para el título -->
     <com.google.android.material.appbar.AppBarLayout

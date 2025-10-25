@@ -1,7 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Permisos necesarios -->
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-feature android:name="android.hardware.camera" android:required="false" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -18,7 +17,6 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:targetApi="31">
 
-        <!-- Activity principal (Splash) -->
         <activity
             android:name=".ui.view.splash.SplashView"
             android:exported="true"
@@ -29,28 +27,25 @@
             </intent-filter>
         </activity>
 
-        <!-- Pantalla principal -->
         <activity
             android:name=".ui.view.pantalla_principal.PantallaPrincipalView"
             android:exported="false" />
 
-        <!-- Activity del escáner de productos -->
         <activity
-            android:name=".ui.view.escanear_producto.EscanearProductoActivity"
+            android:name=".ui.view.escanear_producto.EscanearProductoView"
             android:exported="true"
             android:theme="@style/Theme.YachayFood" />
 
-        <!-- Activity de detalle del producto -->
         <activity
-            android:name=".ui.view.detalle_producto.DetalleProductoActivity"
+            android:name=".ui.view.detalle_producto.DetalleProductoView"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".ui.view.historial.HistorialActivity"
+            android:name=".ui.view.historial.HistorialView"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".ui.view.detalle_Room.DetalleProductoRoomActivity"
+            android:name=".ui.view.detalle_Room.DetalleProductoRoomView"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 

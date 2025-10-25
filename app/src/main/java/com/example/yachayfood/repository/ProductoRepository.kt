@@ -28,7 +28,6 @@ class ProductoRepository {
             proteinas = nutriments?.proteins_100g ?: 0.0
         )
 
-        // Retorna una lista de un solo producto
         listOf(
             Producto(
                 codigoProducto = codigo,
