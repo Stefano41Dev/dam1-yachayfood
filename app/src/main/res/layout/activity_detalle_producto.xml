@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#F6F8FA"
+    android:padding="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Nombre del producto -->
+        <TextView
+            android:id="@+id/txtNombreProducto"
+            android:text="Nombre del Producto"
+            android:textColor="#00796B"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Imagen del producto -->
+        <ImageView
+            android:id="@+id/imgProducto"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Clasificación -->
+        <TextView
+            android:id="@+id/txtClasificacion"
+            android:text="Clasificación: B"
+            android:background="#E8F5E9"
+            android:padding="8dp"
+            android:textColor="#2E7D32"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="4dp" />
+
+        <!-- Categoría -->
+        <TextView
+            android:id="@+id/txtCategoria"
+            android:text="Categoría: Aceptable"
+            android:textColor="#2E7D32"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Descripción -->
+        <TextView
+            android:id="@+id/txtDescripcion"
+            android:text="Descripción del producto..."
+            android:textColor="#444"
+            android:textSize="14sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Título de tabla nutricional -->
+        <TextView
+            android:text="Tabla Nutricional"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp" />
+
+        <!-- Contenedor de tabla nutricional -->
+        <TextView
+            android:id="@+id/txtTablaNutricional"
+            android:background="#B2DFDB"
+            android:padding="12dp"
+            android:textColor="#000"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Título de ingredientes -->
+        <TextView
+            android:text="Ingredientes"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <!-- Lista de ingredientes -->
+        <TextView
+            android:id="@+id/txtIngredientes"
+            android:background="#80CBC4"
+            android:padding="12dp"
+            android:textColor="#000"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Botón eliminar -->
+        <Button
+            android:id="@+id/btnBorrarProducto"
+            android:text="Borrar Producto"
+            android:backgroundTint="#D32F2F"
+            android:textColor="#FFFFFF"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+</ScrollView>
+
+
