@@ -1,6 +1,9 @@
+/*
 package com.example.yachayfood.models
 
 import android.os.Parcelable
+import com.example.yachayfood.models.basedata.NutrimentsEntity
+import com.example.yachayfood.models.basedata.ProductoEntity
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -44,3 +47,4 @@ fun Producto.toProductoEntity(): ProductoEntity {
         )
     )
 }
+*/

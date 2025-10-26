@@ -30,7 +30,6 @@
         <activity
             android:name=".ui.view.pantalla_principal.PantallaPrincipalView"
             android:exported="false" />
-
         <activity
             android:name=".ui.view.escanear_producto.EscanearProductoView"
             android:exported="true"

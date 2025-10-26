@@ -1,10 +1,10 @@
-package com.example.yachayfood.data.local
+package com.example.yachayfood.data
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.yachayfood.models.ProductoEntity
+import com.example.yachayfood.models.basedata.ProductoEntity
 
 @Dao
 interface ProductoDao {

@@ -1,9 +1,11 @@
-package com.example.yachayfood.models
+package com.example.yachayfood.models.basedata
 
 import android.os.Parcelable
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+/*import com.example.yachayfood.models.Nutriente
+import com.example.yachayfood.models.Producto*/
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -12,6 +14,8 @@ data class ProductoEntity(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val codigo: String,
     val nombre: String?,
+    val descripcion: String?,
+    val clasificacion: String?,
     val marca: String?,
     val paises: String?,
     val empaque: String?,
@@ -26,7 +30,7 @@ data class ProductoEntity(
     val nutriments: NutrimentsEntity?
 ) : Parcelable
 
-fun ProductoEntity.toProducto(): Producto {
+/*fun ProductoEntity.toProducto(): Producto {
     return Producto(
         codigoProducto = this.codigo,
         nombreProducto = this.nombre ?: "",
@@ -51,5 +55,5 @@ fun ProductoEntity.toProducto(): Producto {
             fibrasAlimentarias = this.nutriments?.fiber_100g ?: 0.0
         )
     )
-}
+}*/
 

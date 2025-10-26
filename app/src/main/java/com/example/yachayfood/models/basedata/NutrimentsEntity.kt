@@ -1,4 +1,4 @@
-package com.example.yachayfood.models
+package com.example.yachayfood.models.basedata
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

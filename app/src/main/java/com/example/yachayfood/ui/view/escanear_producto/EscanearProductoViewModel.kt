@@ -1,13 +1,13 @@
 package com.example.yachayfood.ui.view.escanear_producto
 
 import androidx.lifecycle.*
-import com.example.yachayfood.api.RetrofitClient
-import com.example.yachayfood.data.database.AppDatabase
-import com.example.yachayfood.models.NutrimentsEntity
-import com.example.yachayfood.models.ProductoEntity
+import com.example.yachayfood.data.AppDatabase
+import com.example.yachayfood.models.basedata.NutrimentsEntity
+import com.example.yachayfood.models.basedata.ProductoEntity
 import com.example.yachayfood.models.Producto
 import com.example.yachayfood.models.Nutriente
-import com.example.yachayfood.models.toProducto
+import com.example.yachayfood.models.basedata.toProducto
+import com.example.yachayfood.api.ApiClient
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -37,7 +37,7 @@ class EscanearProductoViewModel(private val database: AppDatabase) : ViewModel()
                     return@launch
                 }
 
-                val response = RetrofitClient.instance.getProductByCode(codigo)
+                val response = ApiClient.instance.getProductByCode(codigo)
                 if (response.isSuccessful && response.body()?.status == 1) {
                     val productData = response.body()!!.product
 

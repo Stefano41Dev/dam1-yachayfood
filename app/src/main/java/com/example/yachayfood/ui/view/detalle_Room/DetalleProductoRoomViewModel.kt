@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.yachayfood.models.ProductoEntity
+import com.example.yachayfood.models.basedata.ProductoEntity
 
 class DetalleProductoRoomViewModel(application: Application) : AndroidViewModel(application) {
 

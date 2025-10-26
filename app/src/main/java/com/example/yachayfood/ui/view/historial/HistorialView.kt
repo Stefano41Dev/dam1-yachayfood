@@ -7,7 +7,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.yachayfood.adapter.EscaneosRecientesAdapter
-import com.example.yachayfood.models.toProducto
+import com.example.yachayfood.models.basedata.toProducto
 import com.example.yachayfood.databinding.ActivityHistorialBinding
 import com.example.yachayfood.ui.view.detalle_producto.DetalleProductoView
 

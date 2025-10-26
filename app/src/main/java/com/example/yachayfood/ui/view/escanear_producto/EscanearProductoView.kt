@@ -15,7 +15,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.example.yachayfood.data.database.AppDatabase
+import com.example.yachayfood.data.AppDatabase
 import com.example.yachayfood.databinding.ActivityEscanearProductoBinding
 import com.google.android.material.snackbar.Snackbar
 import com.google.zxing.BarcodeFormat

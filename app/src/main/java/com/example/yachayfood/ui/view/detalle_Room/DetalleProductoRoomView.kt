@@ -6,7 +6,7 @@ import androidx.annotation.RequiresApi
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
-import com.example.yachayfood.models.ProductoEntity
+import com.example.yachayfood.models.basedata.ProductoEntity
 import com.example.yachayfood.databinding.ActivityDetalleProductoRoomBinding
 
 class DetalleProductoRoomView : AppCompatActivity() {
