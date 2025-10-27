@@ -1,4 +1,4 @@
-package com.example.yachayfood.data.local
+package com.example.yachayfood.data
 
 import androidx.room.Dao
 import androidx.room.Insert
@@ -8,7 +8,7 @@ import com.example.yachayfood.models.ProductoEntity
 
 @Dao
 interface ProductoDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.Companion.REPLACE)
     suspend fun insertarProducto(producto: ProductoEntity)
 
     @Query("SELECT * FROM productos ORDER BY fechaEscaneo DESC LIMIT 3")

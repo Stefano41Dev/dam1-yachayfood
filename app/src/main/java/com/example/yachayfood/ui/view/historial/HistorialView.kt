@@ -7,7 +7,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.yachayfood.adapter.EscaneosRecientesAdapter
-import com.example.yachayfood.models.toProducto
 import com.example.yachayfood.databinding.ActivityHistorialBinding
 import com.example.yachayfood.ui.view.detalle_producto.DetalleProductoView
 
@@ -52,7 +51,7 @@ class HistorialView : AppCompatActivity() {
             // Cuando un ítem es presionado:
 
             // a. Convertimos el ProductoEntity de la base de datos a un Producto (Parcelable)
-            val productoParaNavegar = productoEntity.toProducto()
+            val productoParaNavegar = productoEntity
 
             // b. Creamos el Intent para ir a DetalleProductoActivity
             val intent = Intent(this, DetalleProductoView::class.java).apply {

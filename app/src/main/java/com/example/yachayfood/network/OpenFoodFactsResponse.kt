@@ -1,4 +1,4 @@
-package com.example.yachayfood.api
+package com.example.yachayfood.network
 
 import com.google.gson.annotations.SerializedName
 
@@ -17,8 +17,10 @@ data class ProductData(
     val image_url: String?,
     val ingredients_text: String?,
     val nutriments: Nutriments?,
-    val categories_tags: List<String>?,
+    val categories: String?,
+    //val categories_tags: List<String>?,
     val countries_tags: List<String>?,
+    val nutriscore_grade: String?,
     val nutriscore_score: Int?
 )
 
@@ -30,7 +32,7 @@ data class Nutriments(
     @SerializedName("fat_100g")
     val fat_100g: Double?,
     @SerializedName("saturated-fat_100g")
-    val saturated_fat_100g: Double?, // <--- aquí usamos SerializedName
+    val saturated_fat_100g: Double?,
     @SerializedName("sugars_100g")
     val sugars_100g: Double?,
     @SerializedName("proteins_100g")

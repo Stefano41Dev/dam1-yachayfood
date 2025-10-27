@@ -7,7 +7,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.yachayfood.databinding.ActivityDetalleProductoBinding
-import com.example.yachayfood.models.Producto
+import com.example.yachayfood.models.ProductoEntity
 
 class DetalleProductoView : AppCompatActivity() {
 
@@ -20,7 +20,7 @@ class DetalleProductoView : AppCompatActivity() {
         binding = ActivityDetalleProductoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val producto = intent.getParcelableExtra<Producto>("producto")
+        val producto = intent.getParcelableExtra<ProductoEntity>("producto")
         val codigoProducto = intent.getStringExtra("codigoProducto")
 
         viewModel.producto.observe(this) { producto ->
@@ -39,28 +39,28 @@ class DetalleProductoView : AppCompatActivity() {
         }
     }
 
-    private fun mostrarDatosProducto(producto: Producto) {
-        binding.txtNombreProducto.text = producto.nombreProducto
+    private fun mostrarDatosProducto(producto: ProductoEntity) {
+        binding.txtNombreProducto.text = producto.nombre
         binding.txtDescripcion.text = producto.descripcion
         binding.txtClasificacion.text = "Clasificación: ${producto.clasificacion}"
-        binding.txtCategoria.text = "Categoría: ${producto.categorias.joinToString(", ")}"
+        binding.txtCategoria.text = "Categoría: ${producto.categorias}"
 
         Glide.with(this)
             .load(producto.imagenUrl)
             .into(binding.imgProducto)
 
-        val n = producto.nutrientes
+        val n = producto.nutriments
         binding.txtTablaNutricional.text = """
-            Energía: ${n.energia} kcal
-            Grasas: ${n.grasas} g
-            Grasas Saturadas: ${n.grasasSaturadas} g
-            Azúcares: ${n.azucares} g
-            Proteínas: ${n.proteinas} g
-            Carbohidratos: ${n.carbohidratos} g
-            Hidratos de Carbono: ${n.hidratosCarbono} g
-            Fibras Alimentarias: ${n.fibrasAlimentarias} g
+            Energía: ${n.energy_100g} kcal
+            Grasas: ${n.fat_100g} g
+            Grasas Saturadas: ${n.saturated_fat_100g} g
+            Azúcares: ${n.sugars_100g} g
+            Proteínas: ${n.proteins_100g} g
+            Carbohidratos: ${n.carbohydrates_100g} g
+            Hidratos de Carbono: ${n.carbohydrates_100g} g
+            Fibras Alimentarias: ${n.fiber_100g} g
         """.trimIndent()
 
-        binding.txtIngredientes.text = producto.ingredientes.joinToString(", ")
+        binding.txtIngredientes.text = producto.ingredientes
     }
 }

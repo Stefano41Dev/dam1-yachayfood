@@ -12,7 +12,7 @@ import com.example.yachayfood.models.ProductoEntity
 
 class EscaneosRecientesAdapter(
     private var productos: List<ProductoEntity>,
-    private val onItemClick: (ProductoEntity) -> Unit // ahora pasa ProductoEntity
+    private val onItemClick: (ProductoEntity) -> Unit
 ) : RecyclerView.Adapter<EscaneosRecientesAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {

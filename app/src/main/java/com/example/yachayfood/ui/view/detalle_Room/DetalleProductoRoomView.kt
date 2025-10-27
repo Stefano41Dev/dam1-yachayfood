@@ -1,5 +1,6 @@
 package com.example.yachayfood.ui.view.detalle_Room
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import androidx.annotation.RequiresApi
@@ -14,6 +15,7 @@ class DetalleProductoRoomView : AppCompatActivity() {
     private lateinit var binding: ActivityDetalleProductoRoomBinding
     private val viewModel: DetalleProductoRoomViewModel by viewModels()
 
+    @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,11 +36,12 @@ class DetalleProductoRoomView : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun mostrarDatosProducto(producto: ProductoEntity) {
-        binding.txtNombreProducto.text = producto.nombre ?: "Sin nombre"
-        binding.txtDescripcion.text = producto.marca ?: "Sin marca"
-        binding.txtClasificacion.text = "NutriScore: ${producto.nutriscoreScore ?: "N/A"}"
-        binding.txtCategoria.text = "Categorías: ${producto.categorias ?: "No disponible"}"
+        binding.txtNombreProducto.text = producto.nombre
+        binding.txtDescripcion.text = "Marca: ${producto.marca}"
+        binding.txtClasificacion.text = "NutriScore: ${producto.nutriscoreScore}"
+        binding.txtCategoria.text = "Categorías: ${producto.categorias}"
 
         Glide.with(this)
             .load(producto.imagenUrl)
@@ -46,15 +49,15 @@ class DetalleProductoRoomView : AppCompatActivity() {
 
         val n = producto.nutriments
         binding.txtTablaNutricional.text = """
-            Energía: ${n?.energy_kcal_100g ?: 0.0} kcal
-            Grasas: ${n?.fat_100g ?: 0.0} g
-            Grasas Saturadas: ${n?.saturated_fat_100g ?: 0.0} g
-            Azúcares: ${n?.sugars_100g ?: 0.0} g
-            Proteínas: ${n?.proteins_100g ?: 0.0} g
-            Carbohidratos: ${n?.carbohydrates_100g ?: 0.0} g
-            Fibras Alimentarias: ${n?.fiber_100g ?: 0.0} g
+            Energía: ${n.energy_kcal_100g} kcal
+            Grasas: ${n.fat_100g} g
+            Grasas Saturadas: ${n.saturated_fat_100g} g
+            Azúcares: ${n.sugars_100g} g
+            Proteínas: ${n.proteins_100g} g
+            Carbohidratos: ${n.carbohydrates_100g} g
+            Fibras Alimentarias: ${n.fiber_100g} g
         """.trimIndent()
 
-        binding.txtIngredientes.text = producto.ingredientes ?: "No especificados"
+        binding.txtIngredientes.text = "Ingredientes: ${producto.ingredientes}"
     }
 }

@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.yachayfood.adapter.EscaneosRecientesAdapter
-import com.example.yachayfood.data.database.AppDatabase
+import com.example.yachayfood.data.AppDatabase
 import com.example.yachayfood.databinding.ActivityPantallaPrincipalBinding
 import com.example.yachayfood.models.ProductoEntity
 import com.example.yachayfood.ui.view.detalle_Room.DetalleProductoRoomView

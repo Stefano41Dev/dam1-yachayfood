@@ -5,7 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.yachayfood.data.database.AppDatabase
+import com.example.yachayfood.data.AppDatabase
 import com.example.yachayfood.models.ProductoEntity
 import kotlinx.coroutines.launch
 

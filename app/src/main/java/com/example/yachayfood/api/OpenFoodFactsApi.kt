@@ -1,7 +1,6 @@
-package com.example.yachayfood.network
+package com.example.yachayfood.api
 
-import com.example.yachayfood.api.OpenFoodFactsResponse
-import com.google.gson.JsonObject
+import com.example.yachayfood.network.OpenFoodFactsResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
