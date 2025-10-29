@@ -4,22 +4,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5"
-    tools:context=".ui.view.pantalla_principal.PantallaPrincipalView"> <!-- Añade tools:context para el preview -->
+    android:background="@color/white"
+    tools:context=".ui.view.pantalla_principal.PantallaPrincipalView">
 
-    <!-- Título Principal "YachayFood" -->
+
+    <ImageButton
+        android:id="@+id/btnOpciones"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/icon_menu_hamburguesa"
+        app:layout_constraintEnd_toStartOf="@+id/TextPrincipal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.2"
+        app:layout_constraintBottom_toBottomOf="@+id/TextPrincipal"
+        />
+
     <TextView
         android:id="@+id/TextPrincipal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:text="YachayFood"
+        android:textColor="#333333"
         android:textSize="36sp"
         android:textStyle="bold"
-        android:textColor="#333333"
-        android:layout_marginTop="50dp"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <FrameLayout
         android:id="@+id/CircleContainer"
@@ -70,16 +82,115 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <LinearLayout
+        android:id="@+id/containerSinEscaneos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/TextEscaneosReciente"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:id="@+id/imgSinEscaneos"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:background="@drawable/icon_escaneando_productos"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Prueba escaneando algunos productos"
+            android:textSize="15sp"
+            android:textColor="#333333"
+            android:layout_gravity="center_horizontal"/>
+    </LinearLayout>
+
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerEscaneos"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginHorizontal="16dp"
-        tools:listitem="@layout/item_escaneo_reciente"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="visible"
+        app:layout_constraintWidth_percent="0.9"
+        app:layout_constraintHeight_percent="0.4"
         app:layout_constraintTop_toBottomOf="@id/TextEscaneosReciente"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:overScrollMode="ifContentScrolls"
+        android:scrollbars="vertical"
+        tools:listitem="@layout/item_escaneo_reciente" />
+
+    <!--Barra de navegacion-->
+    <View
+        android:id="@+id/dimBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000"
+        android:visibility="gone"
+        android:elevation="6dp"
+        />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/menuOverlay"
+        android:layout_width="250dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/default_app"
+        android:padding="16dp"
+        android:elevation="8dp"
+        android:visibility="gone"
+        android:translationX="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/TextConfiguracion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Opciones"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:layout_marginTop="30dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            />
+
+        <View
+            android:id="@+id/barraDecoracion"
+            android:layout_width="0dp"
+            android:layout_height="3dp"
+            android:background="@color/white"
+            app:layout_constraintWidth_percent="0.8"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TextConfiguracion"
+            app:layout_constraintBottom_toTopOf="@+id/btnListaProducto"
+            />
+
+        <Button
+            android:id="@+id/btnListaProducto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Productos Listados"
+            android:textAllCaps="false"
+            android:textSize="15dp"
+            android:background="@color/zxing_transparent"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/barraDecoracion"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
