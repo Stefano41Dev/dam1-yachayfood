@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="130dp"
+    android:layout_marginBottom="20dp"
     android:padding="8dp"
     android:background="@drawable/bg_item_reciente">
 
@@ -25,8 +26,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Nombre Producto"
-        android:textColor="@android:color/black"
-        android:textSize="25sp"
+        android:textColor="@android:color/white"
+        android:textSize="25dp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@id/ImgImagenProductoReciente"
         app:layout_constraintTop_toTopOf="@id/ImgImagenProductoReciente"
@@ -41,7 +42,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Código: 1234567890"
-        android:textColor="@android:color/darker_gray"
+        android:textColor="@android:color/white"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@id/TextTituloProductoReciente"
         app:layout_constraintTop_toBottomOf="@id/TextTituloProductoReciente"

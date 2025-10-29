@@ -9,7 +9,7 @@ import com.example.yachayfood.data.AppDatabase
 import com.example.yachayfood.models.ProductoEntity
 import kotlinx.coroutines.launch
 
-class HistorialViewModel(application: Application) : AndroidViewModel(application) {
+class ListadoProductosViewModel(application: Application) : AndroidViewModel(application) {
 
     private val productoDao = AppDatabase.getInstance(application).productoDao()
 
