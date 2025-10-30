@@ -3,6 +3,7 @@ package com.example.yachayfood.ui.view.detalle_Room
 import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -38,15 +39,38 @@ class DetalleProductoRoomView : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     private fun mostrarDatosProducto(producto: ProductoEntity) {
-        binding.txtNombreProducto.text = producto.nombre
-        binding.txtDescripcion.text = "Marca: ${producto.marca}"
-        binding.txtClasificacion.text = "NutriScore: ${producto.nutriscoreScore}"
-        binding.txtCategoria.text = "Categorías: ${producto.categorias}"
+        // --- DATOS BÁSICOS ---
+        binding.txtNombreProducto.text = producto.nombre ?: "Nombre no disponible"
+        // El campo 'descripcion' en Figma es el 'lorem ipsum', que coincide con la descripción genérica
+        binding.txtDescripcion.text = "Marca: ${producto.marca ?: "No especificada"}\n${producto.descripcion ?: ""}"
 
         Glide.with(this)
             .load(producto.imagenUrl)
+            .placeholder(com.example.yachayfood.R.drawable.ic_launcher_background) // Agregado placeholder
             .into(binding.imgProducto)
 
+        // --- LÓGICA DE OCTÓGONOS ---
+        binding.imgOctogonoGrasasSaturadas.visibility = if (producto.octogonoGrasasSaturadas == "si") View.VISIBLE else View.GONE
+        binding.imgOctogonoAzucar.visibility = if (producto.octogonoAzucar == "si") View.VISIBLE else View.GONE
+        binding.imgOctogonoSodio.visibility = if (producto.octogonoSodio == "si") View.VISIBLE else View.GONE
+        binding.imgOctogonoGrasasTrans.visibility = if (producto.octogonoGrasasTrans == "si") View.VISIBLE else View.GONE
+
+        // --- CLASIFICACIÓN YACHAY) ---
+        // Usamos la clasificación de Yachay (AD, A, B, C, D) o el NutriScore (A, B, C, D, E) como fallback
+        binding.txtClasificacion.text = "Clasificación: ${producto.clasificacionYachay ?: producto.clasificacion ?: "N/A"}"
+        binding.txtCategoria.text = "Categoría: ${getCategoriaFromClasificacion(producto.clasificacionYachay ?: producto.clasificacion)}"
+
+        // --- ANÁLISIS YACHAY ---
+        if (producto.analisisYachay.isNullOrEmpty()) {
+            binding.txtTituloAnalisisYachay.visibility = View.GONE
+            binding.txtAnalisisYachay.visibility = View.GONE
+        } else {
+            binding.txtTituloAnalisisYachay.visibility = View.VISIBLE
+            binding.txtAnalisisYachay.visibility = View.VISIBLE
+            binding.txtAnalisisYachay.text = producto.analisisYachay
+        }
+
+        // --- INFO NUTRICIONAL ---
         val n = producto.nutriments
         binding.txtTablaNutricional.text = """
             Energía: ${n.energy_kcal_100g} kcal
@@ -58,6 +82,20 @@ class DetalleProductoRoomView : AppCompatActivity() {
             Fibras Alimentarias: ${n.fiber_100g} g
         """.trimIndent()
 
-        binding.txtIngredientes.text = "Ingredientes: ${producto.ingredientes}"
+        binding.txtIngredientes.text = producto.ingredientes ?: "No especificados."
+    }
+
+    // Helper para obtener la categoría descriptiva
+    private fun getCategoriaFromClasificacion(clasificacion: String?): String {
+        return when (clasificacion?.uppercase()) {
+            "AD" -> "Natural y Recomendado"
+            "A" -> "Saludable"
+            "B" -> "Aceptable"
+            "C" -> "Consumo Moderado"
+            "D" -> "No Recomendado"
+            // NutriScore fallback
+            "E" -> "No Recomendado"
+            else -> "No clasificado"
+        }
     }
 }

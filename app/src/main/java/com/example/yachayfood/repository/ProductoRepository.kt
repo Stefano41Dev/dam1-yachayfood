@@ -1,12 +1,16 @@
 package com.example.yachayfood.repository
 
+import android.util.Log
 import com.example.yachayfood.api.ApiClient
+import com.example.yachayfood.api.gemini.GeminiApiClient
 import com.example.yachayfood.data.AppDatabase
 import com.example.yachayfood.models.NutrimentsEntity
 import com.example.yachayfood.models.ProductoEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.json.JSONObject
 import kotlin.math.round
+
 class ProductoRepository(database: AppDatabase) {
 
     private val productoDao = database.productoDao()
@@ -19,7 +23,6 @@ class ProductoRepository(database: AppDatabase) {
             productoDao.actualizarFechaEscaneo(codigo, System.currentTimeMillis())
             return@withContext productoLocal
         }
-
 
         val response = api.getProductByCode(codigo)
         val body = response.body()
@@ -63,13 +66,114 @@ class ProductoRepository(database: AppDatabase) {
                 )
             )
 
-            productoDao.insertarProducto(productoEntity)
-            return@withContext productoEntity
+            // --- INICIO DE LA INTEGRACIÓN CON GEMINI ---
+            val prompt = crearPromptParaGemini(productoEntity)
+
+            val respuestaGemini = GeminiApiClient.obtenerAnalisisProducto(prompt)
+            Log.d("GeminiResponse", "Respuesta de Gemini: $respuestaGemini")
+
+            val productoActualizado = if (respuestaGemini != null) {
+                parsearRespuestaGemini(productoEntity, respuestaGemini)
+            } else {
+                productoEntity
+            }
+            // --- FIN DE LA INTEGRACIÓN CON GEMINI ---
+
+            productoDao.insertarProducto(productoActualizado)
+            return@withContext productoActualizado
         }
 
         return@withContext null
     }
 
+    private fun crearPromptParaGemini(producto: ProductoEntity): String {
+        val n = producto.nutriments
+        val infoNutricional = """
+            - Calorías (kcal por 100g): ${n.energy_kcal_100g}
+            - Grasas (por 100g): ${n.fat_100g}g
+            - Grasas Saturadas (por 100g): ${n.saturated_fat_100g}g
+            - Azúcares (por 100g): ${n.sugars_100g}g
+            - Proteínas (por 100g): ${n.proteins_100g}g
+            - Carbohidratos (por 100g): ${n.carbohydrates_100g}g
+            - Fibra (por 100g): ${n.fiber_100g}g
+        """.trimIndent()
+
+        // Nota: Open Food Facts no suele proveer Sodio o Grasas Trans directamente en 'nutriments'.
+        // La IA deberá inferirlo de los ingredientes si es posible, o responder "no" si no hay info.
+        // Para Sodio, a veces está en p.nutriments?.sodium_100g, pero no está en tu data class Nutriments.
+        // Lo ideal sería añadir Sodio a NutrimentsEntity y a ProductData si la API lo devuelve.
+        // Por ahora, la IA se basará en los ingredientes.
+
+        return """
+        Eres un asistente de nutrición llamado Yachay. Analiza el siguiente producto alimenticio y responde 
+        únicamente con un objeto JSON válido, sin texto introductorio ni explicaciones adicionales.
+
+        Producto: ${producto.nombre}
+        Marca: ${producto.marca}
+        Descripción: ${producto.descripcion}
+        País de Origen: ${producto.paises}
+        NutriScore: ${producto.nutriscoreScore}
+        Categorías: ${producto.categorias}
+        Ingredientes: ${producto.ingredientes}
+        Información Nutricional (por 100g):
+        $infoNutricional
+
+        Basado en esta información, genera una respuesta JSON con la siguiente estructura exacta:
+        {
+          "analisis": "(string: un resumen corto y amigable para el usuario sobre si el producto es saludable, 
+                      mencionando brevemente por qué)",
+          "octogonos": {
+            "grasas_saturadas": "(string: 'si' si consideras que es 'Alto en Grasas Saturadas' basado en la info, 
+                                'no' si no lo es o no hay datos)",
+            "azucar": "(string: 'si' si consideras que es 'Alto en Azúcar' basado en la info, 
+                       'no' si no lo es o no hay datos)",
+            "sodio": "(string: 'si' si consideras que es 'Alto en Sodio' (busca sal o sodio en ingredientes), 
+                      'no' si no lo es o no hay datos)",
+            "grasas_trans": "(string: 'si' si contiene ingredientes como 'grasa parcialmente hidrogenada' 
+                             u otros indicadores de grasas trans, 'no' si no los tiene)"
+          },
+          "clasificacion": "(string: da una clasificación simple: 'AD' para productos 100% naturales y recomendados, 
+                          'A' para mínimamente procesados y saludables, 'B' para procesados aceptables, 
+                          'C' para procesados que se deben consumir con moderación, 'D' para ultra-procesados 
+                          no recomendados)"
+        }
+        """
+    }
+
+    private fun parsearRespuestaGemini(
+        producto: ProductoEntity,
+        jsonString: String
+    ): ProductoEntity {
+        return try {
+            // A veces Gemini envuelve la respuesta en ```json ... ```
+            val cleanJson = jsonString
+                .replace("```json", "")
+                .replace("```", "")
+                .trim()
+
+            val jsonObject = JSONObject(cleanJson)
+            val analisis = jsonObject.getString("analisis")
+            val clasificacion = jsonObject.getString("clasificacion")
+
+            val octogonos = jsonObject.getJSONObject("octogonos")
+            val grasasSaturadas = octogonos.getString("grasas_saturadas")
+            val azucar = octogonos.getString("azucar")
+            val sodio = octogonos.getString("sodio")
+            val grasasTrans = octogonos.getString("grasas_trans")
+
+            producto.copy(
+                analisisYachay = analisis,
+                clasificacionYachay = clasificacion,
+                octogonoGrasasSaturadas = grasasSaturadas,
+                octogonoAzucar = azucar,
+                octogonoSodio = sodio,
+                octogonoGrasasTrans = grasasTrans
+            )
+        } catch (e: Exception) {
+            Log.e("GeminiParseError", "Error al parsear JSON de Gemini: ${e.message}")
+            producto.copy(analisisYachay = "No se pudo completar el análisis de IA.")
+        }
+    }
 
     /*suspend fun obtenerProductoPorCodigo(codigo: String): Producto? = withContext(Dispatchers.IO) {
         val response = api.getProductByCode(codigo)

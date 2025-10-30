@@ -24,7 +24,15 @@ data class ProductoEntity(
     val fechaEscaneo: Long = System.currentTimeMillis(),
 
     @Embedded(prefix = "nutriments_")
-    val nutriments: NutrimentsEntity
+    val nutriments: NutrimentsEntity,
+
+    // --- Campos añadidos para la IA ---
+    val analisisYachay: String? = null,
+    val clasificacionYachay: String? = null,
+    val octogonoGrasasSaturadas: String? = null, // "si" o "no"
+    val octogonoAzucar: String? = null, // "si" o "no"
+    val octogonoSodio: String? = null, // "si" o "no"
+    val octogonoGrasasTrans: String? = null // "si" o "no"
 ) : Parcelable
 
 

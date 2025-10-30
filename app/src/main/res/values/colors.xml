@@ -3,9 +3,15 @@
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
-    <color name="default_app">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
+    <color name="default_app">#14B8A6</color> <color name="teal_700">#14B8A6</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="teal_200">#03DAC5</color>
+
+    <color name="text_dark">#333333</color>
+    <color name="text_medium">#666666</color>
+    <color name="text_clasificacion_verde">#2E7D32</color>
+    <color name="bg_clasificacion_verde_claro">#E8F5E9</color>
+    <color name="bg_info_card_light">#E0F2F1</color>
+    <color name="button_red">#D32F2F</color>
 </resources>
