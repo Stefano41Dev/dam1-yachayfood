@@ -1,47 +1,138 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="16dp"
     tools:context=".ui.view.historial.ListadoProductosView">
 
 
     <SearchView
         android:id="@+id/inputBuscarProducto"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:queryHint="Buscar..."
         android:iconifiedByDefault="false"
         android:background="@drawable/bg_input_search"
-        android:layout_marginTop="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="12dp" />
 
-        />
+
+    <HorizontalScrollView
+        android:id="@+id/scrollCategorias"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        android:fillViewport="false"
+        app:layout_constraintTop_toBottomOf="@id/inputBuscarProducto"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp">
+
+        <LinearLayout
+            android:id="@+id/contenedorCategorias"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:layout_gravity="center_vertical">
+
+            <Button
+                android:id="@+id/btnNaturalRecomendado"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Natural y Recomendado"
+                android:textColor="@color/white"
+                android:textAllCaps="false"
+                android:background="@drawable/bg_button_category"
+                android:layout_marginEnd="8dp" />
+
+            <Button
+                android:id="@+id/btnSaludable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Saludable"
+                android:textColor="@color/white"
+                android:textAllCaps="false"
+                android:background="@drawable/bg_button_category"
+                android:layout_marginEnd="8dp" />
+
+            <Button
+                android:id="@+id/btnAceptable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Aceptable"
+                android:textColor="@color/white"
+                android:textAllCaps="false"
+                android:background="@drawable/bg_button_category"
+                android:layout_marginEnd="8dp" />
+
+            <Button
+                android:id="@+id/btnConsumoModerado"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Consumo Moderado"
+                android:textColor="@color/white"
+                android:textAllCaps="false"
+                android:background="@drawable/bg_button_category"
+                android:layout_marginEnd="8dp" />
+
+            <Button
+                android:id="@+id/btnNoRecomendado"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No recomendado"
+                android:textColor="@color/white"
+                android:textAllCaps="false"
+                android:background="@drawable/bg_button_category"
+                android:layout_marginEnd="8dp" />
+
+            <Button
+                android:id="@+id/btnNoClasificado"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textAllCaps="false"
+                android:background="@drawable/bg_button_category"
+                android:text="No Clasificado" />
+
+        </LinearLayout>
+    </HorizontalScrollView>
+
+
 
     <View
-        android:layout_width="0dp"
+        android:id="@+id/barraDecoracion"
+        android:layout_width="wrap_content"
         android:layout_height="1dp"
         android:background="#BDBDBD"
-        app:layout_constraintWidth_percent="0.8"
+        app:layout_constraintTop_toBottomOf="@id/scrollCategorias"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inputBuscarProducto"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerProductos"
-        />
+        app:layout_constraintWidth_percent="0.8"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="8dp" />
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerProductos"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@id/barraDecoracion"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inputBuscarProducto"
-        app:layout_constraintVertical_bias="0.0"
-        tools:listitem="@layout/item_producto" />
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:listitem="@layout/item_producto"
+        android:clipToPadding="false"
+        android:paddingBottom="16dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

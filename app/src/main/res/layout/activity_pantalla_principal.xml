@@ -163,7 +163,6 @@
             app:layout_constraintEnd_toEndOf="parent"
 
             />
-
         <View
             android:id="@+id/barraDecoracion"
             android:layout_width="0dp"
@@ -174,6 +173,18 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/TextConfiguracion"
             app:layout_constraintBottom_toTopOf="@+id/btnListaProducto"
+            />
+        <Button
+            android:id="@+id/btnInicio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/zxing_transparent"
+            android:text="Inicio"
+            android:textColor="@color/white"
+            android:textAllCaps="false"
+            app:layout_constraintTop_toBottomOf="@+id/barraDecoracion"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             />
 
         <Button
@@ -186,7 +197,21 @@
             android:background="@color/zxing_transparent"
             android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/barraDecoracion"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnInicio"
+            />
+        <Button
+            android:id="@+id/btnCreditos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Creditos"
+            android:textAllCaps="false"
+            android:textSize="15dp"
+            android:background="@color/zxing_transparent"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnListaProducto"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
