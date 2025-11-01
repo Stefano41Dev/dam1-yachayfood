@@ -1,7 +1,7 @@
 package com.example.yachayfood.ui.view.escanear_producto
 
 import androidx.lifecycle.*
-import com.example.yachayfood.data.AppDatabase
+import com.example.yachayfood.data.database.AppDatabase
 import com.example.yachayfood.models.ProductoEntity
 import com.example.yachayfood.repository.ProductoRepository
 import kotlinx.coroutines.Dispatchers

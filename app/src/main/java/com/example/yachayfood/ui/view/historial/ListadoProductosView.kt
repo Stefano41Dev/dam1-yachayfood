@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.yachayfood.adapter.ListadoProductosAdapter
 import com.example.yachayfood.databinding.ActivityListadoProductosBinding
+import com.example.yachayfood.ui.view.detalle_Room.DetalleProductoRoomView
 
 import com.example.yachayfood.ui.view.detalle_producto.DetalleProductoView
 
@@ -29,27 +30,28 @@ class ListadoProductosView : AppCompatActivity() {
         setContentView(binding.root)
 
         setupBuscador()
-        observarCambios()
         setupBotonesCategorias()
         setupRecyclerView()
 
-        historialViewModel.listaDeProductos.observe(this) { listaProductos ->
-            if (listaProductos.isNotEmpty()) {
-                escaneosAdapter.actualizarLista(listaProductos)
-            }
-        }
+        observarCambios()
 
-        historialViewModel.error.observe(this) { mensajeError ->
-            Toast.makeText(this, mensajeError, Toast.LENGTH_LONG).show()
-        }
+//        historialViewModel.listaDeProductos.observe(this) { listaProductos ->
+//            if (listaProductos.isNotEmpty()) {
+//                escaneosAdapter.actualizarLista(listaProductos)
+//            }
+//        }
+
+//        historialViewModel.error.observe(this) { mensajeError ->
+//            Toast.makeText(this, mensajeError, Toast.LENGTH_LONG).show()
+//        }
 
         historialViewModel.obtenerTodosLosProductos()
     }
 
     private fun setupRecyclerView() {
         escaneosAdapter = ListadoProductosAdapter(emptyList()) { productoEntity ->
-            val intent = Intent(this, DetalleProductoView::class.java).apply {
-                putExtra("producto", productoEntity)
+            val intent = Intent(this, DetalleProductoRoomView::class.java).apply {
+                putExtra("producto_room", productoEntity)
             }
             startActivity(intent)
         }
@@ -63,6 +65,13 @@ class ListadoProductosView : AppCompatActivity() {
     private fun observarCambios() {
         historialViewModel.listaDeProductos.observe(this) { lista ->
             escaneosAdapter.actualizarLista(lista)
+            if (lista.isNotEmpty()) {
+                escaneosAdapter.actualizarLista(lista)
+            }
+        }
+
+        historialViewModel.error.observe(this) { mensajeError ->
+            Toast.makeText(this, mensajeError, Toast.LENGTH_LONG).show()
         }
     }
 
@@ -93,7 +102,6 @@ class ListadoProductosView : AppCompatActivity() {
             }
         }
     }
-
 
     private fun marcarBotonSeleccionado(boton: Button, clasificacion: String) {
         val estaSeleccionado = boton.background.constantState ==

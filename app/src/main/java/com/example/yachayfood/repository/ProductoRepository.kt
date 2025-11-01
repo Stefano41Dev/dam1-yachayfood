@@ -3,7 +3,7 @@ package com.example.yachayfood.repository
 import android.util.Log
 import com.example.yachayfood.api.ApiClient
 import com.example.yachayfood.api.gemini.GeminiApiClient
-import com.example.yachayfood.data.AppDatabase
+import com.example.yachayfood.data.database.AppDatabase
 import com.example.yachayfood.models.NutrimentsEntity
 import com.example.yachayfood.models.ProductoEntity
 import kotlinx.coroutines.Dispatchers
