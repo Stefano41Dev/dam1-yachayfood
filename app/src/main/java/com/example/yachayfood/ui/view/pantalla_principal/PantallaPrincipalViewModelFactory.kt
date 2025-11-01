@@ -2,7 +2,7 @@ package com.example.yachayfood.ui.view.pantalla_principal
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.yachayfood.data.AppDatabase
+import com.example.yachayfood.data.database.AppDatabase
 
 class PantallaPrincipalViewModelFactory(
     private val database: AppDatabase

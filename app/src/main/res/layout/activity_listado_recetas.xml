@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:paddingTop="32dp"
+    tools:context=".ui.view.recetas_guardadas.ListadoRecetasView">
+
+    <TextView
+        android:id="@+id/txtTituloRecetasGuardadas"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Recetas Guardadas"
+        android:textColor="@color/text_dark"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <SearchView
+        android:id="@+id/inputBuscarReceta"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/bg_input_search"
+        android:iconifiedByDefault="false"
+        android:queryHint="Buscar Receta por nombre"
+        app:layout_constraintEnd_toEndOf="@id/txtTituloRecetasGuardadas"
+        app:layout_constraintStart_toStartOf="@id/txtTituloRecetasGuardadas"
+        app:layout_constraintTop_toBottomOf="@id/txtTituloRecetasGuardadas" />
+
+    <!-- Filtros de Clasificación -->
+    <HorizontalScrollView
+        android:id="@+id/scrollCategoriasRecetas"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        android:fillViewport="false"
+        app:layout_constraintTop_toBottomOf="@id/inputBuscarReceta"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
+
+            <Button
+                android:id="@+id/btnFiltroTodos"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="Todos"
+                android:textColor="@color/white"
+                android:textAllCaps="false"
+                android:background="@drawable/bg_button_category"
+                android:layout_marginEnd="8dp" />
+
+            <Button
+                android:id="@+id/btnFiltroNutritiva"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="Nutritiva"
+                android:textColor="@color/button_filter_off_text"
+                android:textAllCaps="false"
+                android:background="@drawable/bg_button_receta_nutritiva"
+                android:layout_marginEnd="8dp" />
+
+            <Button
+                android:id="@+id/btnFiltroAceptable"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="Aceptable"
+                android:textColor="@color/button_filter_off_text"
+                android:textAllCaps="false"
+                android:background="@drawable/bg_button_receta_aceptable"
+                android:layout_marginEnd="8dp" />
+
+            <Button
+                android:id="@+id/btnFiltroNoRecomendado"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="No Recomendado"
+                android:textColor="@color/button_filter_off_text"
+                android:textAllCaps="false"
+                android:background="@drawable/bg_button_receta_no_recomendada"
+                android:layout_marginEnd="8dp" />
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerRecetasGuardadas"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:clipToPadding="false"
+        app:layout_constraintTop_toBottomOf="@id/scrollCategoriasRecetas"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:listitem="@layout/item_receta_guardada" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

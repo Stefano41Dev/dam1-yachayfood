@@ -29,7 +29,8 @@
 
         <activity
             android:name=".ui.view.pantalla_principal.PantallaPrincipalView"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.YachayFood" />
 
         <activity
             android:name=".ui.view.escanear_producto.EscanearProductoView"
@@ -48,6 +49,18 @@
             android:name=".ui.view.detalle_Room.DetalleProductoRoomView"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".ui.view.recetas_ia.RecetasIAView"
+            android:exported="false"
+            android:theme="@style/Theme.YachayFood" />
+        <activity
+            android:name=".ui.view.recetas_ia.RecetaGeneradaView"
+            android:exported="false"
+            android:theme="@style/Theme.YachayFood" />
+        <activity
+            android:name=".ui.view.recetas_guardadas.ListadoRecetasView"
+            android:exported="false"
+            android:theme="@style/Theme.YachayFood" />
     </application>
 
 </manifest>

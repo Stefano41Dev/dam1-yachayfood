@@ -1,27 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
+    android:background="@color/white"
+    android:paddingTop="32dp"
     tools:context=".ui.view.historial.ListadoProductosView">
-
 
     <SearchView
         android:id="@+id/inputBuscarProducto"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:queryHint="Buscar..."
-        android:iconifiedByDefault="false"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:background="@drawable/bg_input_search"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:iconifiedByDefault="false"
+        android:queryHint="Buscar Producto"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="12dp" />
-
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <HorizontalScrollView
         android:id="@+id/scrollCategorias"
@@ -32,8 +31,7 @@
         app:layout_constraintTop_toBottomOf="@id/inputBuscarProducto"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp">
+        android:layout_marginTop="16dp">
 
         <LinearLayout
             android:id="@+id/contenedorCategorias"
@@ -41,9 +39,8 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:layout_gravity="center_vertical">
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
 
             <Button
                 android:id="@+id/btnNaturalRecomendado"
@@ -107,32 +104,28 @@
         </LinearLayout>
     </HorizontalScrollView>
 
-
-
     <View
         android:id="@+id/barraDecoracion"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="1dp"
-        android:background="#BDBDBD"
+        android:background="@color/divider_color"
         app:layout_constraintTop_toBottomOf="@id/scrollCategorias"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintWidth_percent="0.8"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="8dp" />
-
+        android:layout_marginTop="16dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerProductos"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:clipToPadding="false"
         app:layout_constraintTop_toBottomOf="@id/barraDecoracion"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:listitem="@layout/item_producto"
-        android:clipToPadding="false"
-        android:paddingBottom="16dp" />
+        tools:listitem="@layout/item_producto" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

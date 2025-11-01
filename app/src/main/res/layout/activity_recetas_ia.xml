@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:paddingTop="32dp"
+    tools:context=".ui.view.recetas_ia.RecetasIAView">
+
+
+    <TextView
+        android:id="@+id/txtTituloRecetas"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Mezcla, Revuelve, Aprende"
+        android:textColor="@color/text_dark"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/txtSubtituloRecetas"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Selecciona los productos escaneados que deseas combinar."
+        android:textColor="@color/text_medium"
+        android:textSize="16sp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintTop_toBottomOf="@id/txtTituloRecetas"
+        app:layout_constraintStart_toStartOf="@id/txtTituloRecetas"
+        app:layout_constraintEnd_toEndOf="@id/txtTituloRecetas" />
+
+    <SearchView
+        android:id="@+id/inputBuscarProducto"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/bg_input_search"
+        android:iconifiedByDefault="false"
+        android:queryHint="Buscar Producto"
+        app:layout_constraintEnd_toEndOf="@id/txtTituloRecetas"
+        app:layout_constraintStart_toStartOf="@id/txtTituloRecetas"
+        app:layout_constraintTop_toBottomOf="@id/txtSubtituloRecetas" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerProductosSeleccion"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/inputBuscarProducto"
+        app:layout_constraintBottom_toTopOf="@id/btnGenerarReceta"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:listitem="@layout/item_producto_seleccion"
+        android:paddingBottom="8dp"
+        android:clipToPadding="false"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnGenerarReceta"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Generar Receta IA - 0 producto(s)"
+        android:backgroundTint="@color/default_app"
+        android:textColor="@color/white"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        app:cornerRadius="28dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@id/btnVerRecetasGuardadas"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnVerRecetasGuardadas"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Ver Recetas Guardadas"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/button_dark"
+        app:cornerRadius="28dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

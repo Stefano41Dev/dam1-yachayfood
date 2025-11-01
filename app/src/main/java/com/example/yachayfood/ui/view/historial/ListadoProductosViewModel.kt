@@ -5,7 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.yachayfood.data.AppDatabase
+import com.example.yachayfood.data.database.AppDatabase
 import com.example.yachayfood.models.ProductoEntity
 import kotlinx.coroutines.launch
 
@@ -67,13 +67,12 @@ class ListadoProductosViewModel(application: Application) : AndroidViewModel(app
             val coincideTexto = if (texto.isEmpty()) true
             else (producto.nombre ?: "").contains(texto, ignoreCase = true)
 
-
             val textoCategoriaProducto = when (producto.clasificacionYachay) {
                 "AD" -> "Natural y Recomendado"
                 "A" -> "Saludable"
                 "B" -> "Aceptable"
                 "C" -> "Consumo Moderado"
-                "D" -> "No Recomendado"
+                "D", "E" -> "No Recomendado"
                 else -> "No Clasificado"
             }
 
