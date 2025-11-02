@@ -35,15 +35,6 @@ class ProductoRepository(database: AppDatabase) {
                 nombre = p.product_name ?: "Producto sin nombre",
                 descripcion = p.generic_name ?: "Sin descripción",
                 clasificacion = p.nutriscore_grade?: "Desconocido",
-                /*clasificacion = p.nutriscore_score?.let { score ->
-                    when {
-                        score <= 2 -> "A"
-                        score <= 5 -> "B"
-                        score <= 8 -> "C"
-                        score <= 11 -> "D"
-                        else -> "E"
-                    }
-                } ?: "B",*/
                 marca = p.brands ?: "No especificado",
                 paises = p.countries ?: "No especificado",
                 empaque = p.packaging ?: "No especificado",
@@ -51,7 +42,6 @@ class ProductoRepository(database: AppDatabase) {
                 imagenUrl = p.image_url ?: "Imagen no disponible",
                 ingredientes = p.ingredients_text ?: "No especificado",
                 categorias = p.categories?: "No especificado",
-                //categorias = p.categories_tags?.joinToString(",") { it.removePrefix("en:") } ?: "Desconocido",
                 nutriscoreScore = p.nutriscore_score ?: 0,
                 fechaEscaneo = System.currentTimeMillis(),
                 nutriments = NutrimentsEntity(
@@ -98,15 +88,11 @@ class ProductoRepository(database: AppDatabase) {
             - Fibra (por 100g): ${n.fiber_100g}g
         """.trimIndent()
 
-        // Nota: Open Food Facts no suele proveer Sodio o Grasas Trans directamente en 'nutriments'.
-        // La IA deberá inferirlo de los ingredientes si es posible, o responder "no" si no hay info.
-        // Para Sodio, a veces está en p.nutriments?.sodium_100g, pero no está en tu data class Nutriments.
-        // Lo ideal sería añadir Sodio a NutrimentsEntity y a ProductData si la API lo devuelve.
-        // Por ahora, la IA se basará en los ingredientes.
-
         return """
         Eres un asistente de nutrición llamado Yachay. Analiza el siguiente producto alimenticio y responde 
         únicamente con un objeto JSON válido, sin texto introductorio ni explicaciones adicionales.
+        Si alguna información no tiene valor o es nulo entonces busca por internet con el nombre y marca del producto.
+        Lo mismo para los octogonos, referente a la información de Perú, ya que los octogonos son de ese país.
 
         Producto: ${producto.nombre}
         Marca: ${producto.marca}

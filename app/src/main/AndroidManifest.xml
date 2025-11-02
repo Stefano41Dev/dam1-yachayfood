@@ -31,12 +31,10 @@
             android:name=".ui.view.pantalla_principal.PantallaPrincipalView"
             android:exported="false"
             android:theme="@style/Theme.YachayFood" />
-
         <activity
             android:name=".ui.view.escanear_producto.EscanearProductoView"
             android:exported="true"
             android:theme="@style/Theme.YachayFood" />
-
         <activity
             android:name=".ui.view.detalle_producto.DetalleProductoView"
             android:exported="false"
@@ -59,6 +57,10 @@
             android:theme="@style/Theme.YachayFood" />
         <activity
             android:name=".ui.view.recetas_guardadas.ListadoRecetasView"
+            android:exported="false"
+            android:theme="@style/Theme.YachayFood" />
+        <activity
+            android:name=".ui.view.acerca_de.AcercaDeView"
             android:exported="false"
             android:theme="@style/Theme.YachayFood" />
     </application>

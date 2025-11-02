@@ -13,7 +13,6 @@ class RecetaRepository(private val recetaDao: RecetaDao) {
         }
     }
 
-    // (Esta la usarás para la futura pantalla "Ver Recetas Guardadas")
     suspend fun obtenerRecetasGuardadas(): List<RecetaEntity> {
         return withContext(Dispatchers.IO) {
             recetaDao.obtenerTodasLasRecetas()

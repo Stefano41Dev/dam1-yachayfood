@@ -13,7 +13,7 @@ import com.example.yachayfood.models.RecetaEntity
         ProductoEntity::class,
         RecetaEntity::class
     ],
-    version = 3)
+    version = 4)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun productoDao(): ProductoDao

@@ -33,4 +33,7 @@ interface ProductoDao {
 
     @Query("UPDATE productos SET fechaEscaneo = :nuevaFecha WHERE codigo = :codigo")
     suspend fun actualizarFechaEscaneo(codigo: String, nuevaFecha: Long)
+
+    @Query("DELETE FROM productos")
+    suspend fun clearAllProductos()
 }
