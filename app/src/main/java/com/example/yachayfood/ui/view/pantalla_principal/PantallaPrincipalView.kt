@@ -14,6 +14,7 @@ import com.example.yachayfood.adapter.EscaneosRecientesAdapter
 import com.example.yachayfood.data.database.AppDatabase
 import com.example.yachayfood.databinding.ActivityPantallaPrincipalBinding
 import com.example.yachayfood.models.ProductoEntity
+import com.example.yachayfood.ui.view.acerca_de.AcercaDeView
 import com.example.yachayfood.ui.view.detalle_Room.DetalleProductoRoomView
 import com.example.yachayfood.ui.view.escanear_producto.EscanearProductoView
 import com.example.yachayfood.ui.view.historial.ListadoProductosView
@@ -97,7 +98,6 @@ class PantallaPrincipalView : AppCompatActivity() {
 
         // 1. Inicio
         binding.btnMenuInicio.setOnClickListener {
-            // Ya estamos en Inicio, así que solo cerramos el menú
             toggleMenu(menu, dimBackground)
         }
 
@@ -115,7 +115,8 @@ class PantallaPrincipalView : AppCompatActivity() {
 
         // 4. Créditos (Placeholder)
         binding.btnMenuCreditos.setOnClickListener {
-            Toast.makeText(this, "Créditos (Próximamente)", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, AcercaDeView::class.java))
+            toggleMenu(menu, dimBackground)
         }
     }
 

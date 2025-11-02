@@ -15,4 +15,6 @@ interface RecetaDao {
     @Query("SELECT * FROM recetas ORDER BY fechaGuardado DESC")
     suspend fun obtenerTodasLasRecetas(): List<RecetaEntity>
 
+    @Query("DELETE FROM recetas")
+    suspend fun clearAllRecetas()
 }

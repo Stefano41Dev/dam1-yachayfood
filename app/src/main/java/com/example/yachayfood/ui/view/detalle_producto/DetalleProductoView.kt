@@ -7,7 +7,9 @@ import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
+import com.example.yachayfood.R
 import com.example.yachayfood.databinding.ActivityDetalleProductoBinding
 import com.example.yachayfood.models.ProductoEntity
 
@@ -59,8 +61,23 @@ class DetalleProductoView : AppCompatActivity() {
         binding.imgOctogonoGrasasTrans.visibility = if (producto.octogonoGrasasTrans == "si") View.VISIBLE else View.GONE
 
         // --- CLASIFICACIÓN YACHAY ---
-        binding.txtClasificacion.text = "Clasificación: ${producto.clasificacionYachay ?: producto.clasificacion ?: "N/A"}"
-        binding.txtCategoria.text = "Categoría: ${getCategoriaFromClasificacion(producto.clasificacionYachay ?: producto.clasificacion)}"
+        val clasificacionFinal = producto.clasificacionYachay ?: producto.clasificacion
+        val categoriaTexto = getCategoriaFromClasificacion(clasificacionFinal)
+
+        binding.txtClasificacion.text = "Clasificación: ${clasificacionFinal ?: "N/A"}"
+        binding.txtCategoria.text = "Categoría: $categoriaTexto"
+
+        // --- LÓGICA DE COLOR DINÁMICO ---
+        val colorRes = when (clasificacionFinal?.uppercase()) {
+            "AD", "A" -> R.color.text_classification_safe       // Verde
+            "B", "C" -> R.color.text_classification_warning  // Naranja
+            "D", "E" -> R.color.text_classification_danger   // Rojo
+            else -> R.color.text_light_gray                  // Gris
+        }
+
+        val color = ContextCompat.getColor(this, colorRes)
+        binding.txtClasificacion.setTextColor(color)
+        binding.txtCategoria.setTextColor(color)
 
         // --- ANÁLISIS YACHAY ---
         if (producto.analisisYachay.isNullOrEmpty()) {

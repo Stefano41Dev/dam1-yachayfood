@@ -87,7 +87,8 @@ class RecetaGeneradaViewModel(application: Application) : AndroidViewModel(appli
         return """
         Eres un asistente de cocina creativo llamado Yachay. Recibes una lista de productos escaneados. 
         Tu tarea es crear una receta simple y saludable (si lo saludable no es posible entonces no tienes que seguir esta regla)
-        que use todos los productos como ingrediente principal y tambien ingredientes sugeridos por ti.
+        que use todos los productos escaneados que te pasaré como ingredientes principales y tambien ingredientes sugeridos por ti
+        (los nombres de los ingredientes sugeridos que sea como se les dice en Perú).
         
         Productos Escaneados:
         $listaProductosTexto
